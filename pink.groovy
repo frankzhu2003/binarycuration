@@ -194,7 +194,7 @@ def sendTOSN(String maxSeverity, String displayName, String pkgType, String artP
 
     String xLink = req.baseUrl.replace("/artifactory",
             "") + "/ui/repos/tree/Xray/" + artPathCache
-    def serviceNowURL = "https://YOUR_SERVICENOW-INSTANCE.service-now.com/api/668961/curationalert/create"
+    def serviceNowURL = "https://YOUR_SERVICENOW_INSTANCE.service-now.com/api/YOUR_SERVICENOW_API_NUMBER/curationalert/create"
     def method3 = new HttpPost(serviceNowURL)
     method3.addHeader("Content-Type", "application/json")
     method3.addHeader('Accepts', "application/json")
