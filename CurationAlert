@@ -1,0 +1,41 @@
+(function process( /*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+
+    var body = request.body.data;
+    var artifact = body.artifact;
+    var link = body.link;
+    var pkgScheme = body.pkgScheme;
+    var maxSev = body.max_severity;
+    var user = body.user;
+    var contact = null;
+var aPath = body.path;
+    var userGR = new GlideRecord('sys_user');
+    if (userGR.get('email', user)) {
+        contact = userGR.getUniqueValue();
+    }
+    // create incident
+    var incidentGR = new GlideRecord('incident');
+    if (contact) {
+        incidentGR.caller_id = user;
+    } else {
+        incidentGR.caller_id = "Unknown";
+    }
+
+    incidentGR.contact_type = 'self-service';
+    incidentGR.short_description = "Vulnerable third party";
+incidentGR.u_artifact = artifact;
+incidentGR.u_pkgscheme = pkgScheme;
+incidentGR.u_xrlink = link;
+incidentGR.u_path = aPath;
+    incidentGR.description = "vulnerable " + artifact + " with severity: " + maxSev + ".\n [code]<p><a href=\"" + link + "\">" + link +
+    "</a></p>[/code]";
+    incidentGR.assignment_group.setDisplayValue('Developer');
+
+    incidentGR.insert();
+    var incidentId = incidentGR.getDisplayValue('number');
+    response.setContentType('application/json');
+    response.setStatus(200);
+    var writer = response.getStreamWriter();
+    writer.writeString('{"incident": "'+ incidentId +'"}');
+
+
+})(request, response);
