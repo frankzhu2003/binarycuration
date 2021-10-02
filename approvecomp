@@ -1,0 +1,12 @@
+{
+ "notes": "SN approval, incident: ${incNum}" ,
+ "ignore_filters": {
+    "vulnerabilities": [
+      "any"
+    ],
+  "licenses": [ "any"],
+    "components": [
+      {"name":"${compName}", "version": "${compVer}"}
+    ]
+  }
+}
