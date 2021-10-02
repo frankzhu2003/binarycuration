@@ -1,0 +1,26 @@
+try { 
+ var r = new sn_ws.RESTMessageV2('approvecomp', 'do');
+ var path = current.u_path;
+
+ var arr = path.split(":");
+ r.setStringParameterNoEscape('repoKey', arr[0] + '-cache');
+ r.setStringParameterNoEscape('incNum', current.number);
+r.setStringParameterNoEscape('compName', current.u_pkgScheme + "://" + arr[0] + ":" + arr[1]);
+r.setStringParameterNoEscape('compVer', arr[2]);
+ var response = r.execute();
+ var responseBody = response.getBody();
+ var httpStatus = response.getStatusCode();
+ var r2 = new sn_ws.RESTMessageV2('pinkApproval', 'post');
+ path = current.u_path;
+
+ r2.setStringParameterNoEscape('orgPath', path);
+ r2.setStringParameterNoEscape('snIncNum', current.number);
+ r2.setStringParameterNoEscape('approver', gs.getUserName());
+
+  response = r2.execute();
+  responseBody = response.getBody();
+  httpStatus = response.getStatusCode();
+}
+catch(ex) {
+ var message = ex.message;
+}
