@@ -96,6 +96,8 @@ executions {
         def repoPath = RepoPathFactory.create(orgPath.replaceFirst("-cache/", "/"))
         // TODO: get it without the cache!!!!
         repositories.setProperty(repoPath, "sn_approved_by", approver)
+        repositories.setProperty(repoPath, "sn_incident_number", snIncNum)
+        repositories.setProperty(repoPath, "sn_approve_note", "Approve reason is .... ")
         def targetRepo = repoPath.repoKey.replace("untrusted-remote", "curated")
         def destpath = RepoPathFactory.create(targetRepo, repoPath.path)
         repositories.copy(repoPath, destpath)
